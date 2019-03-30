@@ -1,0 +1,30 @@
+{
+  "name": "mqtt2loxone",
+  "version": "1.0.0",
+  "description": "Node.js based interface between MQTT and Loxone for a smart home",
+  "keywords": [
+    "smarthome",
+    "mqtt",
+    "loxone"
+  ],
+  "main": "index.js",
+  "bin": {
+    "mqtt2loxone": "index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/claudiospizzi/mqtt2loxone.git"
+  },
+  "author": "Claudio Spizzi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/claudiospizzi/mqtt2loxone/issues"
+  },
+  "homepage": "https://github.com/claudiospizzi/mqtt2loxone#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mqtt": "^2.18.8",
+    "yalm": "^4.1.0"
+  }
+}

@@ -1,0 +1,76 @@
+#!/usr/bin/env node
+
+const log = require('yalm');
+const mqtt = require('mqtt');
+const express = require('express');
+const parser = require('body-parser');
+
+const pkg = require('./package.json');
+const cfg = require(process.argv[2] || './config.json');
+
+let mqttConnected;
+
+log.setLevel(cfg.log);
+log.info(pkg.name + ' ' + pkg.version + ' starting');
+
+const mqttClient = mqtt.connect(
+    cfg.mqtt.url, {
+        will: { topic: cfg.mqtt.name + '/connected', payload: '0', retain: true },
+        rejectUnauthorized: cfg.mqtt.secure
+    }
+);
+
+mqttClient.on('connect', () => {
+
+    mqttClient.publish(cfg.mqtt.name + '/connected', '2', { retain: true });
+
+    mqttConnected = true;
+    log.info('mqtt: connected ' + cfg.mqtt.url);
+
+    // ToDo: Subscribe
+});
+
+mqttClient.on('close', () => {
+
+    if (mqttConnected) {
+        mqttConnected = false;
+        log.info('mqtt: disconnected ' + cfg.mqtt.url);
+    }
+});
+
+mqttClient.on('error', err => {
+
+    log.error('mqtt: error ' + err.message);
+});
+
+mqttClient.on('message', (topic, payload, msg) => {
+
+    // ToDo: Parse Messages
+});
+
+const expressServer = express();
+expressServer.use(parser.json());
+
+expressServer.route('/mqtt/publish/:topic(*)')
+    .post(parseRequest);
+
+expressServer.listen(cfg.loxone.port, () => {
+    log.info('express: server running on http://0.0.0.0:' + cfg.loxone.port);
+});
+
+function parseRequest(req, res) {
+
+    publishMqttStatus(req.params.topic, req.body.val);
+    res.send();
+}
+
+function publishMqttStatus(topic, value) {
+
+    payload = {
+        ts: Date.now() / 1000,
+        val: value
+    }
+
+    mqttClient.publish(topic, JSON.stringify(payload));
+    log.info('mqtt: publish ' + topic + ' ' + JSON.stringify(payload));
+}
