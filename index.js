@@ -3,7 +3,7 @@
 const log = require('yalm');
 const mqtt = require('mqtt');
 const express = require('express');
-const parser = require('body-parser');
+const bodyParser = require('body-parser');
 
 const pkg = require('./package.json');
 const cfg = require(process.argv[2] || './config.json');
@@ -49,28 +49,42 @@ mqttClient.on('message', (topic, payload, msg) => {
 });
 
 const expressServer = express();
-expressServer.use(parser.json());
+expressServer.use(bodyParser.text({ type: 'text/*' }));
 
-expressServer.route('/mqtt/publish/:topic(*)')
+expressServer.route('/mqtt/' + cfg.mqtt.name + '/:topic(*)')
     .post(parseRequest);
 
-expressServer.listen(cfg.loxone.port, () => {
+expressServer.listen(cfg.loxone.port, '0.0.0.0', () => {
     log.info('express: server running on http://0.0.0.0:' + cfg.loxone.port);
 });
 
 function parseRequest(req, res) {
 
-    publishMqttStatus(req.params.topic, req.body.val);
+    publishMqttStatus(req.params.topic, req.body);
     res.send();
 }
 
 function publishMqttStatus(topic, value) {
 
-    payload = {
-        ts: Date.now() / 1000,
-        val: value
+    let parsedValue;
+    if (value == 'true') {
+        parsedValue = 1;
+    }
+    else if (value == 'false') {
+        parsedValue = 0;
+    }
+    else if (!isNaN(value)) {
+        parsedValue = Number(value);
+    }
+    else {
+        parsedValue = value;
     }
 
-    mqttClient.publish(topic, JSON.stringify(payload));
-    log.info('mqtt: publish ' + topic + ' ' + JSON.stringify(payload));
+    payload = {
+        ts: Date.now() / 1000,
+        val: parsedValue
+    }
+
+    mqttClient.publish(cfg.mqtt.name + '/' + topic, JSON.stringify(payload));
+    log.info('mqtt: publish ' + cfg.mqtt.name + '/' + topic + ' ' + JSON.stringify(payload));
 }
