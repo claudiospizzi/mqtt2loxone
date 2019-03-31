@@ -51,7 +51,7 @@ mqttClient.on('message', (topic, payload, msg) => {
 const expressServer = express();
 expressServer.use(bodyParser.text({ type: 'text/*' }));
 
-expressServer.route('/mqtt/' + cfg.mqtt.name + '/:topic(*)')
+expressServer.route('/mqtt/:topic(*)')
     .post(parseRequest);
 
 expressServer.listen(cfg.loxone.port, '0.0.0.0', () => {
