@@ -6,8 +6,8 @@
 
 This node.js application is a bridge between the [Loxone Smart Home] and a mqtt
 broker. The Loxone MiniServer can publish any message by using the http virtual
-output and the REST API of mqtt2loxone listening on port 3000. The request uri
-must have the prefix `/mqtt/`.
+output and the REST API of mqtt2loxone listening on port 3000 by default. The
+request uri must have the prefix `/mqtt/` to publish mqtt messages.
 
 ## Installation
 
