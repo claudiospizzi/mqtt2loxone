@@ -1,6 +1,6 @@
 {
   "name": "mqtt2loxone",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Node.js based interface between MQTT and Loxone for a smart home",
   "keywords": [
     "smarthome",
