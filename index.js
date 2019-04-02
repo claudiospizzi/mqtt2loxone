@@ -81,7 +81,7 @@ function publishMqttStatus(topic, value) {
     }
 
     payload = {
-        ts: Date.now() / 1000,
+        ts: Date.now(),
         val: parsedValue
     }
 
