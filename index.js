@@ -85,6 +85,6 @@ function publishMqttStatus(topic, value) {
         val: parsedValue
     }
 
-    mqttClient.publish(cfg.mqtt.name + '/' + topic, JSON.stringify(payload));
-    log.info('mqtt: publish ' + cfg.mqtt.name + '/' + topic + ' ' + JSON.stringify(payload));
+    mqttClient.publish(topic, JSON.stringify(payload));
+    log.info('mqtt: publish ' + topic + ' ' + JSON.stringify(payload));
 }
