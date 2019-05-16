@@ -22,9 +22,12 @@
   },
   "homepage": "https://github.com/claudiospizzi/mqtt2loxone#readme",
   "dependencies": {
-    "body-parser": "^1.18.3",
+    "body-parser": "^1.19.0",
+    "dgram": "^1.0.1",
+    "encodeurl": "^1.0.2",
     "express": "^4.16.4",
     "mqtt": "^2.18.8",
+    "request": "^2.88.0",
     "yalm": "^4.1.0"
   }
 }
