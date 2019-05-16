@@ -1,4 +1,5 @@
 .vscode
 .travis.yml
+assets
 config.json
 config-debug.json
