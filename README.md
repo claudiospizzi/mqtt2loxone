@@ -1,7 +1,7 @@
 # mqtt2loxone
 
 [![mqtt-smarthome](https://img.shields.io/badge/mqtt-smarthome-blue.svg?style=flat-square)](https://github.com/mqtt-smarthome/mqtt-smarthome)
-[![npm](https://img.shields.io/npm/v/mqtt2loxone.svg?style=flat-square)](https://www.npmjs.com/package/mqtt2loxone)
+[[npm](https://img.shields.io/npm/v/mqtt2loxone.svg?style=flat-square)](https//www.npmjs.com/package/mqtt2loxone)
 [![travis](https://img.shields.io/travis/claudiospizzi/mqtt2loxone.svg?style=flat-square)](https://travis-ci.org/claudiospizzi/mqtt2loxone)
 
 This node.js application is a bridge between the [Loxone Smart Home] and a mqtt
@@ -41,28 +41,54 @@ ENTRYPOINT [ "/usr/local/bin/mqtt2loxone", "/etc/mqtt2loxone.json" ]
 
 ## Configuration
 
-ToDo
+The following configuration file is an example. Please replace the desired
+values like the mqtt url and add your loxone ip address, username and password.
+
+```json
+{
+    "log": "debug",
+    "mqtt": {
+        "url": "mqtt://192.168.1.10",
+        "name": "loxone",
+        "secure": false
+    },
+    "loxone": {
+        "host": "192.168.1.20",
+        "port": 4000,
+        "username": "user",
+        "password": "pass"
+    }
+}
+```
 
 ## API
 
-### HTTP
+### UDP Virtual Output
+
+This module contains a udp api to receive udp datagram packages from the Loxone
+MiniServer. The virtual output must be configured with the address pointing to
+the ip address of mqtt2loxone and the specified port. Also remove the `;`
+separator in the virtual output.
+
+![UDP Virtual Output](https://github.com/claudiospizzi/mqtt2loxone/blob/master/assets/loxone-virtualoutput.png?raw=true)
+
+Within the virtual output, a virtual output command can be created to specify
+what will be send to the mqtt broker. Please use the option digital output. For
+the field `Command On` specify the mqtt command in the following format:
+
+* `<topic>;<value>;<qos>;<retain>`
+
+![UDP Virtual Output Command](https://github.com/claudiospizzi/mqtt2loxone/blob/master/assets/loxone-virtualoutputcommand.png?raw=true)
+
+By the way, you can also use the logger component in loxone with the UDP target
+to log change or status messages to mqtt.
+
+### UDP Virtual Input
 
 tbd
 
-### UDP
+### Virtual Text Input
 
-![UDP Virtual Output](https://github.com/claudiospizzi/mqtt2loxone/blob/master/assets/loxone-virtualoutput-udp.png?raw=true)
-
-This module contains a udp api to receive udp datagrams from the Loxone
-MiniServer logger component. The loxone logger component always has the prefix
-with date and time as well as the source device name, separated by a semicolon.
-To process the udp message, the following structure must is required:
-
-`<yyyy-MM-dd HH:mm:ss>;<Name>;<Room>;<Device>;<Measurement>;<Value>`
-
-## Topics
-
-ToDo
+tbd
 
 [Loxone Smart Home]: https://www.loxone.com/
-/mqtt/loxone/humidity/EG.0 Gang/Touch Zimmer
