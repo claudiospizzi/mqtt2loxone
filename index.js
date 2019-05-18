@@ -125,6 +125,13 @@ udpServer.on('message', (message, remote) => {
 
     let messageParts = message.toString().split(';');
 
+    // Check if the message was send by the logger or by the UDP virtual output
+    // and concatenate the array if it's the logger.
+    let regexLogger = /^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2};.*$/g;
+    if (message.match(logger) != null) {
+        messageParts = messageParts.splice(2);
+    }
+
     // Define topic. This must be in the udp message.
     let topic = cfg.mqtt.name + '/' + messageParts[0];
 
