@@ -1,7 +1,7 @@
 # mqtt2loxone
 
 [![mqtt-smarthome](https://img.shields.io/badge/mqtt-smarthome-blue.svg?style=flat-square)](https://github.com/mqtt-smarthome/mqtt-smarthome)
-[![npm](https://img.shields.io/npm/v/mqtt2loxone.svg?style=flat-square)](https//www.npmjs.com/package/mqtt2loxone)
+[![npm](https://img.shields.io/npm/v/mqtt2loxone.svg?style=flat-square)](https://www.npmjs.com/package/mqtt2loxone)
 [![travis](https://img.shields.io/travis/claudiospizzi/mqtt2loxone.svg?style=flat-square)](https://travis-ci.org/claudiospizzi/mqtt2loxone)
 
 This node.js application is a bridge between the [Loxone Smart Home] and a mqtt
