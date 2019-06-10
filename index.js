@@ -128,7 +128,7 @@ udpServer.on('message', (message, remote) => {
     // Check if the message was send by the logger or by the UDP virtual output
     // and concatenate the array if it's the logger.
     let regexLogger = /^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2};.*$/g;
-    if (message.match(logger) != null) {
+    if (message.match(regexLogger) != null) {
         messageParts = messageParts.splice(2);
     }
 
