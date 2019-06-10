@@ -121,14 +121,16 @@ udpServer.on('close', () => {
 
 udpServer.on('message', (message, remote) => {
 
+    message = message.toString().trim();
+
     log.info('udp server: message from udp://' + remote.address + ':' + remote.port + ' => ' + message);
 
-    let messageParts = message.toString().split(';');
+    let messageParts = message.split(';');
 
     // Check if the message was send by the logger or by the UDP virtual output
     // and concatenate the array if it's the logger.
     let regexLogger = /^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2};.*$/g;
-    if (message.toString().match(regexLogger) != null) {
+    if (message.match(regexLogger) != null) {
         messageParts = messageParts.splice(2);
     }
 
