@@ -56,7 +56,10 @@ values like the mqtt url and add your loxone ip address, username and password.
         "host": "192.168.1.20",
         "port": 4000,
         "username": "user",
-        "password": "pass"
+        "password": "pass",
+        "subscriptions": [
+            "/my/topic/*"
+        ]
     }
 }
 ```

@@ -40,6 +40,10 @@ mqttClient.on('connect', () => {
     log.info('mqtt: connected ' + cfg.mqtt.url);
 
     mqttClient.subscribe(cfg.mqtt.name + '/set/#');
+
+    for (let subscription in cfg.loxone.subscriptions) {
+        mqttClient.subscribe(subscription);
+    }
 });
 
 mqttClient.on('close', () => {
