@@ -139,7 +139,7 @@ udpServer.on('message', (message, remote) => {
     }
 
     // Define topic. This must be in the udp message.
-    let topic = cfg.mqtt.name + '/' + messageParts[0];
+    let topic = messageParts[0];
 
     // Define value. Can be null or empty.
     let value = '';
@@ -163,6 +163,11 @@ udpServer.on('message', (message, remote) => {
     let name = null;
     if (messageParts.length > 4) {
         name = messageParts[4];
+    }
+
+    // Add the default prefix if the custom prefix is not specified
+    if (messageParts.length < 6 || (messageParts.length > 5 && messageParts[5] == 'true')) {
+        topic = cfg.mqtt.name + '/' + topic;
     }
 
     // Parse the value, to publish the correct format.
