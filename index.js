@@ -41,8 +41,8 @@ mqttClient.on('connect', () => {
 
     mqttClient.subscribe(cfg.mqtt.name + '/set/#');
 
-    for (let subscription in cfg.loxone.subscriptions) {
-        mqttClient.subscribe(subscription);
+    for (let subscriptionKey in cfg.loxone.subscriptions) {
+        mqttClient.subscribe(cfg.loxone.subscriptions[subscriptionKey]);
     }
 });
 
