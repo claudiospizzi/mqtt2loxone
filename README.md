@@ -58,7 +58,7 @@ values like the mqtt url and add your loxone ip address, username and password.
         "username": "user",
         "password": "pass",
         "subscriptions": [
-            "/my/topic/*"
+            "/my/topic/#"
         ]
     }
 }
