@@ -62,15 +62,16 @@ mqttClient.on('message', (topic, payload, msg) => {
     log.info('mqtt: message ' + topic + ' ' + payload.toString())
 
     // Try to parse the payload. If not possible, add null as payload.
-    try {
-        payload = JSON.parse(payload.toString())
-    } catch (err) {
-        if (!isNaN(payload.toString())) {
-            payload = {
-                val: Number(payload.toString()),
-                name: 'unknown'
-            }
-        } else {
+    const payloadString = payload.toString()
+    if (!isNaN(payloadString)) {
+        payload = {
+            val: Number(payloadString),
+            name: 'unknown'
+        }
+    } else {
+        try {
+            payload = JSON.parse(payloadString)
+        } catch (error) {
             payload = {
                 val: null,
                 name: 'unknown'
