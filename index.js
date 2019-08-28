@@ -145,7 +145,7 @@ udpServer.on('message', (message, remote) => {
     }
 
     // Define topic. This must be in the udp message
-    let topic = messageParts[0]
+    const topic = messageParts[0]
 
     // Define value. Can be null or empty
     let value = ''
@@ -201,10 +201,11 @@ udpServer.on('message', (message, remote) => {
         if (name !== null) {
             payload.name = name
         }
+        payload = JSON.stringify(payload)
     }
 
-    mqttClient.publish(topic, JSON.stringify(payload), { qos: qos, retain: retain })
-    log.info('mqtt: publish ' + topic + ' ' + JSON.stringify(payload))
+    mqttClient.publish(topic, payload, { qos: qos, retain: retain })
+    log.info('mqtt: publish ' + topic + ' ' + payload)
 })
 
 udpServer.on('error', (err) => {

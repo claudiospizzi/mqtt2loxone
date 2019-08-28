@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is mainly based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.0.1
+
+* Fixed: Don't convert raw values to JSON
+
 ## 3.0.0
 
 * Changed: Don't append the loxone topic as a prefix
