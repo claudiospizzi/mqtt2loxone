@@ -138,45 +138,46 @@ udpServer.on('message', (message, remote) => {
     let messageParts = message.split(';')
 
     // Check if the message was send by the logger or by the UDP virtual output
-    // and concatenate the array if it's the logger.
+    // and concatenate the array if it's the logger
     const regexLogger = /^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2};.*$/g
     if (message.match(regexLogger) != null) {
         messageParts = messageParts.splice(2)
     }
 
-    // Define topic. This must be in the udp message.
+    // Define topic. This must be in the udp message
     let topic = messageParts[0]
 
-    // Define value. Can be null or empty.
+    // Define value. Can be null or empty
     let value = ''
     if (messageParts.length > 1) {
         value = messageParts[1]
     }
 
-    // Define the mqtt qos. Default is 0.
+    // Define the mqtt qos. Default is 0
     let qos = 0
     if (messageParts.length > 2) {
         qos = parseInt(messageParts[2])
     }
 
-    // Define the mqtt retain. Default is false.
+    // Define the mqtt retain. Default is false
     let retain = false
     if (messageParts.length > 3) {
         retain = messageParts[3] === 'true'
     }
 
-    // Define the optional name payload string. Default is not defined.
+    // Define the optional name payload string. Default is not defined
     let name = null
     if (messageParts.length > 4) {
         name = messageParts[4]
     }
 
     // Add the default prefix if the custom prefix is not specified
-    if (messageParts.length < 6 || (messageParts.length > 5 && messageParts[5] === 'true')) {
-        topic = cfg.mqtt.name + '/' + topic
+    let mode = 'json'
+    if (messageParts.length > 5) {
+        mode = messageParts[5]
     }
 
-    // Parse the value, to publish the correct format.
+    // Parse the value, to publish the correct format
     let parsedValue
     if (value === '') {
         parsedValue = ''
@@ -190,13 +191,16 @@ udpServer.on('message', (message, remote) => {
         parsedValue = value
     }
 
-    // Prepare the payload object with timestamp, value and optionally the name.
-    const payload = {
-        ts: Date.now(),
-        val: parsedValue
-    }
-    if (name !== null) {
-        payload.name = name
+    // Prepare the payload object with timestamp, value and optionally the name
+    let payload = parsedValue
+    if (mode === 'json') {
+        payload = {
+            ts: Date.now(),
+            val: parsedValue
+        }
+        if (name !== null) {
+            payload.name = name
+        }
     }
 
     mqttClient.publish(topic, JSON.stringify(payload), { qos: qos, retain: retain })

@@ -79,7 +79,7 @@ Within the virtual output, a virtual output command can be created to specify
 what will be send to the mqtt broker. Please use the option digital output. For
 the field `Command On` specify the mqtt command in the following format:
 
-* `<topic>;<value>;<qos>;<retain>`
+* `<topic>;<value>;<qos>;<retain>;<name>;<mode>`
 
 ![UDP Virtual Output Command](https://github.com/claudiospizzi/mqtt2loxone/blob/master/assets/loxone-virtualoutputudp-command.png?raw=true)
 
